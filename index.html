@@ -633,50 +633,88 @@
         }
 
         function showResult() {
-            const questionTexts = [
-                "Ideal time for our date",
-                "What we'd be doing",
-                "The vibe"
-            ];
-            
-            const allAnswers = [
-                [
-                    "Sunrise - watching the world wake up together ☀️",
-                    "Afternoon - casual and relaxed vibes 🌤️",
-                    "Sunset - golden hour magic 🌅",
-                    "Night - under the stars ✨"
-                ],
-                [
-                    "Cooking together and sharing food 🍳",
-                    "Walking and talking for hours 🚶",
-                    "Cozy movie night with snacks 🎬",
-                    "Adventure somewhere new 🗺️"
-                ],
-                [
-                    "Peaceful and quiet, just us 🤫",
-                    "Fun and playful energy 🎉",
-                    "Romantic and sweet 💗",
-                    "Spontaneous and exciting 🎊"
-                ]
-            ];
+    const questionTexts = [
+        "Ideal time for our date",
+        "What we'd be doing",
+        "The vibe"
+    ];
+    
+    const allAnswers = [
+        [
+            "Sunrise - watching the world wake up together ☀️",
+            "Afternoon - casual and relaxed vibes 🌤️",
+            "Sunset - golden hour magic 🌅",
+            "Night - under the stars ✨"
+        ],
+        [
+            "Cooking together and sharing food 🍳",
+            "Walking and talking for hours 🚶",
+            "Cozy movie night with snacks 🎬",
+            "Adventure somewhere new 🗺️"
+        ],
+        [
+            "Peaceful and quiet, just us 🤫",
+            "Fun and playful energy 🎉",
+            "Romantic and sweet 💗",
+            "Spontaneous and exciting 🎊"
+        ]
+    ];
 
-            const results = [
-                {
-                    title: "A Perfect Day Together",
-                    description: "When the world goes quiet, we'd gaze the stars, talking for hours, something sweet and deep till sunrise 💕"
-                }
-            ];
+    const results = [
+        {
+            title: "A Perfect Day Together",
+            description: "When the world goes quiet, we'd gaze the stars, talking for hours, something sweet and deep till sunrise 💕"
+        }
+    ];
 
-            const result = results[0];
-            
-            // Build the answers summary
-            let answersSummary = "My Perfect Date Answers:\n\n";
-            for (let i = 0; i < answers.length; i++) {
-                if (answers[i] !== null) {
-                    answersSummary += `${questionTexts[i]}: ${allAnswers[i][answers[i]]}\n\n`;
-                }
-            }
+    const result = results[0];
+    
+    // Build the answers summary
+    let answersSummary = "My Perfect Date Answers:\n\n";
+    for (let i = 0; i < answers.length; i++) {
+        if (answers[i] !== null) {
+            answersSummary += `${questionTexts[i]}: ${allAnswers[i][answers[i]]}\n\n`;
+        }
+    }
 
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = `
+        <h3 style="font-size: 2rem; margin-bottom: 20px;">${result.title}</h3>
+        <p>${result.description}</p>
+
+        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:30px;">
+            <a class="quiz-btn" id="smsLink"
+               style="margin:0; background:white; color: var(--primary); text-decoration:none; display:inline-block;">
+               📩 Text you my answers
+            </a>
+
+            <a class="quiz-btn" id="waLink"
+               target="_blank"
+               style="margin:0; background:white; color: var(--primary); text-decoration:none; display:inline-block;">
+               💬 WhatsApp you my answers
+            </a>
+        </div>
+    `;
+    resultDiv.classList.add('show');
+    document.getElementById('quiz').style.display = 'none';
+    
+    // Store answers for sharing (kept for compatibility)
+    window.quizAnswers = answersSummary;
+
+    // Your phone number (UK)
+    const YOUR_PHONE = "+447878886290";
+
+    const msg = `My Perfect Date Answers 💕\n\n${answersSummary}`;
+
+    // SMS link (best on phones)
+    const smsHref = `sms:${YOUR_PHONE}?&body=${encodeURIComponent(msg)}`;
+
+    // WhatsApp link
+    const waHref = `https://wa.me/${YOUR_PHONE.replace("+","")}?text=${encodeURIComponent(msg)}`;
+
+    document.getElementById("smsLink").href = smsHref;
+    document.getElementById("waLink").href = waHref;
+}
             const resultDiv = document.getElementById('result');
             resultDiv.innerHTML = `
                 <h3 style="font-size: 2rem; margin-bottom: 20px;">${result.title}</h3>
